@@ -1,0 +1,673 @@
+openapi: 3.1.0
+info:
+    title: FoodStore API
+    summary: Information management system for a catering company.
+    description: >-
+        This API allows applications to interact with the FoodStore system
+        in order to manage information about dishes and orders.
+    license:
+        name: GPLv3.0
+        identifier: GPL-3.0-or-later
+        url: https://spdx.org/licenses/GPL-3.0-or-later.html
+    version: 1.0.0
+servers:
+    - url: https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1
+paths:
+    /dishes:
+        get:
+            operationId: getDishes
+            summary: Get all available dishes
+            description: >-
+                Returns a list of all the dishes the catering company offers.
+            tags:
+                - dishes
+            security: []
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Dish"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        post:
+            operationId: createDish
+            summary: Create a new dish
+            description: >-
+                Creates a new dish and adds it to the list of available dishes.
+            tags:
+                - dishes
+            security:
+                - basicAuth: []
+            requestBody:
+                description: The dish to be created
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Dish"
+            responses:
+                "201":
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Dish"
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/BasicUnauthorizedResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+    /dishes/{dishId}:
+        get:
+            operationId: getDish
+            summary: Get a dish
+            description: >-
+                Returns the dish with the given ID.
+            tags:
+                - dishes
+            security: []
+            parameters:
+                - name: dishId
+                  in: path
+                  description: The ID of the dish to be retrieved
+                  required: true
+                  schema:
+                      type: integer
+                      example: 123
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Dish"
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "404":
+                    $ref: "#/components/responses/DishNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        put:
+            operationId: updateDish
+            summary: Update an existing dish
+            description: >-
+                Updates an existing dish.
+            tags:
+                - dishes
+            security:
+                - basicAuth: []
+            parameters:
+                - name: dishId
+                  in: path
+                  description: The ID of the dish to be updated
+                  required: true
+                  schema:
+                      type: integer
+                      example: 123
+            requestBody:
+                description: An updated description of the dish
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Dish"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Dish"
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/BasicUnauthorizedResponse"
+                "404":
+                    $ref: "#/components/responses/DishNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        delete:
+            operationId: deleteDish
+            summary: Delete an existing dish
+            description: >-
+                Deletes an existing dish, as long as it is not
+                currently associated with any order.
+            tags:
+                - dishes
+            security:
+                - basicAuth: []
+            parameters:
+                - name: dishId
+                  in: path
+                  description: The ID of the dish to be deleted
+                  required: true
+                  schema:
+                      type: integer
+                      example: 123
+            responses:
+                "204":
+                    description: No Content
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/BasicUnauthorizedResponse"
+                "409":
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                            example:
+                                code: 4901
+                                message: >-
+                                    The specified dish is currently associated with an order
+                                    and therefore cannot be deleted
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                "404":
+                    $ref: "#/components/responses/DishNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+    /orders:
+        get:
+            operationId: getOrders
+            summary: Get all orders
+            description: >-
+                Returns a list of all the orders the catering company will fulfill,
+                optionally filtering by month and/or year.
+            tags:
+                - orders
+            security: []
+            parameters:
+                - name: month
+                  in: query
+                  description: >-
+                      The month for which to retrieve orders.
+                      If not specified, orders will not be filtered by month.
+                  required: false
+                  schema:
+                      type: integer
+                      minimum: 1
+                      maximum: 12
+                      example: 8
+                - name: year
+                  in: query
+                  description: >-
+                      The year for which to retrieve orders.
+                      If not specified, orders will not be filtered by year.
+                  required: false
+                  schema:
+                      type: integer
+                      minimum: 2000
+                      maximum: 2099
+                      example: 2022
+                - name: limit
+                  in: query
+                  description: >-
+                      The maximum number of orders to be returned.
+                      If not specified, all orders will be returned.
+                  required: false
+                  schema:
+                      type: integer
+                      minimum: 0
+                      example: 5
+                - name: offset
+                  in: query
+                  description: >-
+                      The number of orders to skip before returning the result.
+                      If not specified, no orders will be skipped.
+                  required: false
+                  schema:
+                      type: integer
+                      minimum: 0
+                      example: 5
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Order"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                            examples:
+                                invalid-month:
+                                    summary: Invalid month
+                                    value:
+                                        code: 4021
+                                        message: Invalid month provided
+                                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                                invalid-year:
+                                    summary: Invalid year
+                                    value:
+                                        code: 4022
+                                        message: Invalid year provided
+                                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                                invalid-limit:
+                                    summary: Invalid limit
+                                    value:
+                                        code: 4023
+                                        message: Invalid limit provided
+                                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                                invalid-offset:
+                                    summary: Invalid offset
+                                    value:
+                                        code: 4024
+                                        message: Invalid offset provided
+                                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+    /orders/{date}:
+        get:
+            operationId: getOrder
+            summary: Get an order
+            description: >-
+                Returns the order with the given date.
+            tags:
+                - orders
+            security: []
+            parameters:
+                - name: date
+                  in: path
+                  description: The date of the order to be retrieved
+                  required: true
+                  schema:
+                      type: string
+                      format: date
+                      example: "2022-10-27"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Order"
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "404":
+                    $ref: "#/components/responses/OrderNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        post:
+            operationId: createOrder
+            summary: Create a new order
+            description: >-
+                Creates a new order and adds it to the catering company's backlog.
+            tags:
+                - orders
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: date
+                  in: path
+                  description: The date of the new order
+                  required: true
+                  schema:
+                      type: string
+                      format: date
+                      example: "2022-10-27"
+            requestBody:
+                description: The order to be created
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/InputOrder"
+            responses:
+                "201":
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Order"
+                "400":
+                    $ref: "#/components/responses/VegNotVegResponse"
+                "401":
+                    $ref: "#/components/responses/BearerUnauthorizedResponse"
+                "404":
+                    $ref: "#/components/responses/DishNotFoundResponse"
+                "409":
+                    description: Conflict
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                            example:
+                                code: 4921
+                                message: An order with this date already exists
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        put:
+            operationId: updateOrder
+            summary: Update an existing order
+            description: >-
+                Updates an existing order.
+            tags:
+                - orders
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: date
+                  in: path
+                  description: The date of the order to be updated
+                  required: true
+                  schema:
+                      type: string
+                      format: date
+                      example: "2022-10-27"
+            requestBody:
+                description: An updated description of the order
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/InputOrder"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Order"
+                "400":
+                    $ref: "#/components/responses/VegNotVegResponse"
+                "401":
+                    $ref: "#/components/responses/BearerUnauthorizedResponse"
+                "403":
+                    $ref: "#/components/responses/ForeignOrderForbiddenResponse"
+                "404":
+                    $ref: "#/components/responses/OrderNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+        delete:
+            operationId: deleteOrder
+            summary: Delete an existing order
+            description: >-
+                Deletes an existing order.
+            tags:
+                - orders
+            security:
+                - bearerAuth: []
+            parameters:
+                - name: date
+                  in: path
+                  description: The date of the order to be deleted
+                  required: true
+                  schema:
+                      type: string
+                      format: date
+                      example: "2022-10-27"
+            responses:
+                "204":
+                    description: No Content
+                "400":
+                    $ref: "#/components/responses/BadRequestResponse"
+                "401":
+                    $ref: "#/components/responses/BearerUnauthorizedResponse"
+                "403":
+                    $ref: "#/components/responses/ForeignOrderForbiddenResponse"
+                "404":
+                    $ref: "#/components/responses/OrderNotFoundResponse"
+                "500":
+                    $ref: "#/components/responses/InternalServerErrorResponse"
+
+components:
+    schemas:
+        Dish:
+            type: object
+            description: >-
+                A dish offered by the catering company.
+            properties:
+                id:
+                    type: integer
+                    description: Unique identifier of the dish.
+                    readOnly: true
+                    example: 123
+                name:
+                    type: string
+                    description: Name of the dish.
+                    example: Carbonara pasta
+                description:
+                    type: string
+                    description: Description of the dish.
+                    example: Pasta with bacon, eggs and parmesan cheese.
+                unitPrice:
+                    type: integer
+                    description: Price of the dish in cents, per unit weight.
+                    minimum: 1
+                    example: 600
+                unitWeight:
+                    type: integer
+                    minimum: 1
+                    description: Unit weight of the dish in grams.
+                    example: 3
+                vegetarian:
+                    type: boolean
+                    description: Whether the dish is vegetarian or not.
+                    example: false
+            required:
+                - name
+                - description
+                - unitPrice
+                - unitWeight
+                - vegetarian
+        Order:
+            type: object
+            description: >-
+                An order placed by a customer that will be
+                fulfilled by the catering company.
+            properties:
+                date:
+                    type: string
+                    format: date
+                    description: Date of the order (unique).
+                    readOnly: true
+                    example: "2022-01-25"
+                normalOption:
+                    $ref: "#/components/schemas/Dish"
+                vegetarianOption:
+                    $ref: "#/components/schemas/Dish"
+            required:
+                - date
+                - normalOption
+                - vegetarianOption
+            readOnly: true
+        InputOrder: # with IDs only, FIXME: this should be mergeable with Order using read/writeOnly
+            type: object
+            description: >-
+                An order placed by a customer that will be
+                fulfilled by the catering company.
+            properties:
+                normalOptionDishId:
+                    type: integer
+                    description: ID of the normal option dish.
+                    example: 123
+                vegetarianOptionDishId:
+                    type: integer
+                    description: ID of the vegetarian option dish.
+                    example: 456
+            required:
+                - normalOptionDishId
+                - vegetarianOptionDishId
+            writeOnly: true
+
+        Error:
+            type: object
+            description: >-
+                An error that occurred while processing a request.
+            readOnly: true
+            properties:
+                code:
+                    type: integer
+                    description: Error type code.
+                    example: 4123
+                message:
+                    type: string
+                    description: Error message.
+                    example: Malformed request
+                uuid:
+                    type: string
+                    description: Unique identifier of the error.
+                    example: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                info:
+                    type: array
+                    description: Additional information about the error.
+                    items:
+                        anyOf:
+                            - type: string
+                            - type: number
+                            - type: integer
+                            - type: boolean
+                            - type: array
+                              items: {}
+                            - type: object
+            required:
+                - code
+                - message
+                - uuid
+    responses:
+        DishNotFoundResponse:
+            description: Not Found
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    example:
+                        code: 4401
+                        message: >-
+                            No dish with the specified ID was found
+                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        OrderNotFoundResponse:
+            description: Not Found
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    example:
+                        code: 4421
+                        message: >-
+                            No order with the specified date was found
+                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        ForeignOrderForbiddenResponse:
+            description: Forbidden
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    example:
+                        code: 4302
+                        message: >-
+                            Access denied: user is not allowed to
+                            control the order with the specified date
+                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        VegNotVegResponse:
+            description: Bad Request
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    examples:
+                        veg-not-veg:
+                            summary: Vegetarian option is not vegetarian
+                            value:
+                                code: 4025
+                                message: The vegetarian option must be a vegetarian dish
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        BadRequestResponse:
+            description: Bad Request
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+        InternalServerErrorResponse:
+            description: Internal Server Error
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    example:
+                        code: 5001
+                        message: Internal Server Error
+                        uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        BearerUnauthorizedResponse:
+            description: Unauthorized
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    examples:
+                        token-not-set:
+                            summary: Bearer token not set
+                            value:
+                                code: 4101
+                                message: >-
+                                    Bearer token not set: requests must be sent with
+                                    a valid Bearer token in the Authorization header
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                        invalid-token:
+                            summary: Invalid bearer token
+                            value:
+                                code: 4102
+                                message: >-
+                                    Invalid bearer token: the provided token is invalid
+                                    or does not exist
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+        BasicUnauthorizedResponse:
+            description: Unauthorized
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Error"
+                    examples:
+                        no-valid-auth-provided:
+                            summary: No authentication provided
+                            value:
+                                code: 4111
+                                message: >-
+                                    No authentication provided: Catering company
+                                    staff user authentication credentials must be
+                                    sent in the Authorization header
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+                        invalid-credentials:
+                            summary: Invalid credentials
+                            value:
+                                code: 4112
+                                message: >-
+                                    Invalid credentials: the provided catering company
+                                    staff user username and password are invalid
+                                uuid: 3d209cc8-3572-4d97-89ca-6874caf1313d
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            description: >-
+                Bearer authentication scheme using a provided access token.
+                **This scheme should be used by external applications.**
+        basicAuth:
+            type: http
+            scheme: basic
+            description: >-
+                Basic authentication scheme using a provided username and
+                password. **This scheme should be used by internal applications.**
+                Only the catering company's staff should be issued credentials.
+tags:
+    - name: dishes
+      description: Endpoints regarding dishes
+    - name: orders
+      description: >-
+          Endpoints regarding orders
+
+
+          ***IMPORTANT NOTE:** For security reasons, orders can only be updated or
+          deleted by the user who created them (i.e., using the same Bearer token).*
