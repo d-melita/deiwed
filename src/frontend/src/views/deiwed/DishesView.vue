@@ -56,5 +56,16 @@ export default class DishesView extends Vue {
 ];
   search = '';
   loading = true;
+
+  async mounted() {
+    await this.$store.dispatch('loading');
+    try {
+      this.dishes = await RemoteServices.getDishes();
+      this.loading = false;
+    } catch (error) {
+      this.$store.dispatch('error', error);
+    }
+    await this.$store.dispatch('clearLoading');
+  }
 }
 </script>

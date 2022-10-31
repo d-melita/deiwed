@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.AttendeeDto;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.AttendeeService;
 
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.DishDto;
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.DishService;
+
 @RestController
 public class DeiwedController {
 	@Autowired
 	private AttendeeService attendeeService;
+	private DishService dishService;
 
 	@GetMapping("/attendees")
 	public List<AttendeeDto> getAttendees() {
@@ -42,5 +46,11 @@ public class DeiwedController {
 	@DeleteMapping("/attendees/{id}")
 	public void deleteAttendee(@PathVariable long id) {
 		attendeeService.deleteAttendee(id);
+	}
+
+	// GET DISHES
+	@GetMapping("/dishes")
+	public List<DishDto> getDishes() {
+		return dishService.getAllDishes();
 	}
 }
