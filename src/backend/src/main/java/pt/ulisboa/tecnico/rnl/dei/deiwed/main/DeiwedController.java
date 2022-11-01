@@ -22,9 +22,11 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.SessionService;
 
 @RestController
 public class DeiwedController {
+	
 	@Autowired
 	private AttendeeService attendeeService;
 	private DishService dishService;
+	@Autowired
 	private SessionService sessionService;
 
 	@GetMapping("/attendees")
@@ -62,5 +64,10 @@ public class DeiwedController {
 	@GetMapping("/sessions")
 	public List<SessionDto> getSessions() {
 		return sessionService.getAllSessions();
+	}
+
+	@PostMapping("/sessions")
+	public SessionDto createSession(@RequestBody SessionDto sessionDto) {
+		return sessionService.createSession(sessionDto);
 	}
 }

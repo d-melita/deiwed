@@ -36,6 +36,7 @@ export default class RemoteServices {
   }
 
   static async getSessions(): Promise<SessionDto[]> {
+    console.log("aaaa")
     return httpClient
       .get('/sessions')
       .then((response) => response.data)
@@ -75,6 +76,18 @@ export default class RemoteServices {
   static async removeAttendee(id: number){
     return httpClient
       .delete('/attendees/' + id)
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async addSession(session: SessionDto){
+    return httpClient
+      .post('/sessions', session)
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(
