@@ -22,7 +22,7 @@
       >
         <template v-slot:[`item.type`]="{ item }">
           <v-chip
-            v-if="item.type === 'TEACHER'"
+            v-if="item.type === 'Professor'"
             color="purple"
             text-color="white"
           >

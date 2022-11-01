@@ -44,8 +44,6 @@ import AttendeeDto from '@/models/deiwed/AttendeeDto';
 import RemoteServices from '@/services/RemoteServices';
 import { Component, Vue } from 'vue-property-decorator';
 
-
-
 @Component
 export default class AddAttendeeView extends Vue {
   name: string = '';
@@ -62,7 +60,8 @@ export default class AddAttendeeView extends Vue {
     await RemoteServices.addAttendee(attendee);
     this.$router.push('/attendees');
   }
-  goTo(path: string) {
+
+  goTo(path: string): void {
     if (this.$route.path == path) {
       this.$router.go(0);
     } else {

@@ -12,10 +12,6 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.AttendeeDto;
 @Table(name = "attendees")
 public class Attendee {
 
-	public enum ATTENDEE_TYPE {
-		TEACHER, GRANTEE
-	}
-
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -27,22 +23,21 @@ public class Attendee {
 	private String istId;
 
 	@Column(name = "type", nullable = false)
-	private ATTENDEE_TYPE type;
+	private String type;
 
 	// TODO: maybe add more fields? ...or maybe not? what makes sense here?
 
 	protected Attendee() {
 	}
 
-	public Attendee(String name, String istId, ATTENDEE_TYPE type) {
+	public Attendee(String name, String istId, String type) {
 		this.name = name;
 		this.istId = istId;
 		this.type = type;
 	}
 
 	public Attendee(AttendeeDto attendeeDto) {
-		this(attendeeDto.getName(), attendeeDto.getIstId(),
-				ATTENDEE_TYPE.valueOf(attendeeDto.getType().toUpperCase()));
+		this(attendeeDto.getName(), attendeeDto.getIstId(), attendeeDto.getType());
 	}
 
 	public Long getId() {
@@ -69,11 +64,11 @@ public class Attendee {
 		this.istId = istId;
 	}
 
-	public ATTENDEE_TYPE getType() {
+	public String getType() {
 		return this.type;
 	}
 
-	public void setType(ATTENDEE_TYPE type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
