@@ -1,17 +1,15 @@
 <!-- create sessions template to view all sessions available in a fast access table with date, theme and speaker -->
 <template>
-  <v-card>
-    <v-card-title>
+  <v-card :flat="$store.getters.isMobile" class="table pb-4">
+    <v-card-title>Sessões do DEI às Quartas</v-card-title>
+    <v-card-text>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Pesquisar"
         single-line
         hide-details
       ></v-text-field>
-      <v-spacer></v-spacer>
-    </v-card-title>
-    <v-card-text>
       <v-data-table
         :headers="headers"
         :items="sessions"

@@ -168,17 +168,17 @@ throw new Error('Method not implemented.');
         icon: 'fas fa-person-chalkboard',
         list: [
           {
-            name: 'Attendees',
+            name: 'Participantes',
             path: '/attendees',
             icon: 'fas fa-users',
           },
           {
-            name: 'Dishes',
+            name: 'Pratos',
             path: '/dishes',
             icon: 'fas fa-utensils',
           },
           {
-            name: 'Sessions',
+            name: 'Sessões',
             path: '/sessions',
             icon: 'fas fa-calendar-alt',
           }, 

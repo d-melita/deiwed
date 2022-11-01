@@ -1,18 +1,16 @@
 <!-- create dishes template to view all dishes available in a fast access table with name and price -->
 
 <template>
-  <v-card>
-    <v-card-title>
+  <v-card :flat="$store.getters.isMobile" class="table pb-4">
+    <v-card-title>Pratos disponíveis para o DEI às Quartas</v-card-title>
+    <v-card-text>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Pesquisar"
         single-line
         hide-details
       ></v-text-field>
-      <v-spacer></v-spacer>
-    </v-card-title>
-    <v-card-text>
       <v-data-table
         :headers="headers"
         :items="dishes"
