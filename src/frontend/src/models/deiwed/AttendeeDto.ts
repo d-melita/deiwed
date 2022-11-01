@@ -1,6 +1,6 @@
 export default class AttendeeDto {
   id: number = 0;
   name: string = '';
-  price: string = '';
+  istId: string = '';
   type: string = '';
 }

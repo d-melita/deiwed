@@ -128,6 +128,9 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class TopBar extends Vue {
+static goTo(path: string) {
+throw new Error('Method not implemented.');
+}
   appName: string = process.env.VUE_APP_NAME;
   darkMode = false;
   drawer = false;

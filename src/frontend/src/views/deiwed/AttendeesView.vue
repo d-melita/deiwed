@@ -31,6 +31,15 @@
           <v-chip v-else color="green" text-color="white"> Bolseiro </v-chip>
         </template>
       </v-data-table>
+        <!-- add attendee button-->
+      <v-btn
+      v-if="!$store.getters.isMobile"
+      color="primary"
+      class="mx-auto"
+      @click="goTo('/attendees/add-attendee')"
+      >
+      <v-icon left>mdi-plus</v-icon> Adicionar Participante
+      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -65,6 +74,14 @@ export default class AttendeesView extends Vue {
       this.$store.dispatch('error', error);
     }
     await this.$store.dispatch('clearLoading');
+  }
+
+  goTo(path: string) {
+    if (this.$route.path == path) {
+      this.$router.go(0);
+    } else {
+      this.$router.push(path);
+    }
   }
 }
 </script>

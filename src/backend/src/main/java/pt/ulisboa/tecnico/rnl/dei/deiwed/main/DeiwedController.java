@@ -17,11 +17,15 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.AttendeeService;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.DishDto;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.DishService;
 
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionDto;
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.SessionService;
+
 @RestController
 public class DeiwedController {
 	@Autowired
 	private AttendeeService attendeeService;
 	private DishService dishService;
+	private SessionService sessionService;
 
 	@GetMapping("/attendees")
 	public List<AttendeeDto> getAttendees() {
@@ -48,9 +52,15 @@ public class DeiwedController {
 		attendeeService.deleteAttendee(id);
 	}
 
-	// GET DISHES
+	// Get Dishes
 	@GetMapping("/dishes")
 	public List<DishDto> getDishes() {
 		return dishService.getAllDishes();
+	}
+
+	// Get Sessions
+	@GetMapping("/sessions")
+	public List<SessionDto> getSessions() {
+		return sessionService.getAllSessions();
 	}
 }

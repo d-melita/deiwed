@@ -1,4 +1,5 @@
 import AttendeeDto from '@/models/deiwed/AttendeeDto';
+import SessionDto from '@/models/deiwed/SessionDto';
 import DeiwedError from '@/models/error/DeiwedError';
 import DishDto from '@/models/deiwed/DishDto';
 import axios from 'axios';
@@ -25,6 +26,18 @@ export default class RemoteServices {
   static getDishes(): Promise<DishDto[]> {
     return axios
       .get('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/dishes')
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async getSessions(): Promise<SessionDto[]> {
+    return httpClient
+      .get('/sessions')
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(

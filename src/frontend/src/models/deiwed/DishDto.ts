@@ -1,4 +1,4 @@
-export default class AttendeeDto {
+export default class DishDto {
     id: number = 0;
     name: string = '';
     istId: string = '';

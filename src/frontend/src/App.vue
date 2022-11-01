@@ -32,6 +32,13 @@ export default class App extends Vue {
       });
     });
   }
+  goTo(path: string) {
+    if (this.$route.path == path) {
+      this.$router.go(0);
+    } else {
+      this.$router.push(path);
+    }
+  }
 }
 </script>
 

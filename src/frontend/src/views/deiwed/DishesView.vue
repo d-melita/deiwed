@@ -24,15 +24,16 @@
         no-results-text="Nenhum prato corresponde aos critérios indicados"
         sort-by="name"
       >
-        <template v-slot:[`item.type`]="{ item }">
+      <!-- type ? vegetarian: true, normal: false -->
+        <template v-slot:[`item.vegetarian`]="{ item }">
           <v-chip
-            v-if="item.type === 'MEAT'"
-            color="purple"
+            v-if="item.vegetarian === true"
+            color="green"
             text-color="white"
           >
-            Carne
+            Vegetariano
           </v-chip>
-          <v-chip v-else color="green" text-color="white"> Peixe </v-chip>
+          <v-chip v-else color="red" text-color="white"> Normal </v-chip>
         </template>
       </v-data-table>
     </v-card-text>
@@ -51,8 +52,10 @@ export default class DishesView extends Vue {
   headers: DataTableHeader[] = [
     { text: 'ID', value: 'id', sortable: true, filterable: true },
     { text: 'Nome', value: 'name', sortable: true, filterable: true },
-    { text: 'Preço', value: 'price', sortable: true, filterable: true },
-    { text: 'Tipo', value: 'type', sortable: true, filterable: false }, // vegetarian or normal
+    { text: 'Preço', value: 'unitPrice', sortable: true, filterable: true },
+    { text: 'Descrição', value: 'description', sortable: true, filterable: true },
+    { text: 'Peso', value: 'unitWeight', sortable: true, filterable: false },
+    { text: 'Tipo', value: 'vegetarian', sortable: true, filterable: false }, // vegetarian or normal
 ];
   search = '';
   loading = true;
