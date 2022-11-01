@@ -30,6 +30,20 @@
           </v-chip>
           <v-chip v-else color="green" text-color="white"> Bolseiro </v-chip>
         </template>
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-btn
+            color="primary"
+            @click="goTo('/attendees/' + item.id)"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="removeAttendee(item)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
         <!-- add attendee button-->
       <v-btn
@@ -75,6 +89,9 @@ export default class AttendeesView extends Vue {
     }
     await this.$store.dispatch('clearLoading');
   }
+
+  // remove attendee
+
 
   goTo(path: string) {
     if (this.$route.path == path) {

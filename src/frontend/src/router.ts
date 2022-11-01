@@ -31,6 +31,11 @@ const router = new Router({
       path: '/attendees/add-attendee',
       name: 'addattendee',
       component: () => import('@/views/deiwed/AddAttendeeView.vue'),
+    },
+    {
+      path: '/attendees/:id',
+      name: 'editattendee',
+      component: () => import('@/views/deiwed/EditAttendeeView.vue'),
     }
   ],
 });
