@@ -61,9 +61,9 @@ export default class RemoteServices {
       });
   }
 
-  static async editAttendee(attendee: AttendeeDto, id: number){
+  static async editAttendee(attendee: AttendeeDto){
     return httpClient
-      .put('/attendees/' + id, attendee)
+      .put('/attendees/' + attendee.id, attendee)
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(

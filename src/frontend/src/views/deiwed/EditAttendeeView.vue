@@ -46,17 +46,19 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class editAttendee extends Vue {
+  id: number = 0;
   name: string = '';
   istId: string = '';
   type: string = '';
 
   async editAttendee() {
     const attendee: AttendeeDto = {
+        id: parseInt(this.$router.currentRoute.params.id),
         name: this.name,
         istId: this.istId,
         type: this.type,
     };
-    await RemoteServices.editAttendee(attendee, this.$router.currentRoute.params.id);
+    await RemoteServices.editAttendee(attendee);
     this.$router.push('/attendees');
   }
 
