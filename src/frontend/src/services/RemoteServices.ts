@@ -72,6 +72,18 @@ export default class RemoteServices {
       });
   }
 
+  static async removeAttendee(id: number){
+    return httpClient
+      .delete('/attendees/' + id)
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
   static async errorMessage(error: any): Promise<string> {
     if (error.message === 'Network Error') {
       return 'Unable to connect to server';
