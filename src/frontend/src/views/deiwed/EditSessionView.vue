@@ -52,8 +52,6 @@ export default class editSession extends Vue {
     theme: string = '';
     speaker: string = '';
     image: string = '';
-    dishes: DishDto[] = [];
-    attendees: AttendeeDto[] = [];
 
   async editSession() {
     const session: SessionDto = {
@@ -62,8 +60,6 @@ export default class editSession extends Vue {
         theme: this.theme,
         speaker: this.speaker,
         image: this.image,
-        dishes: this.dishes,
-        attendees: this.attendees,
     };
     await RemoteServices.editSession(session);
     this.$router.push('/sessions');

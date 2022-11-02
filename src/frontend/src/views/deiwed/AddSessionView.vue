@@ -51,8 +51,6 @@ export default class AddSessionView extends Vue {
   theme: string = '';
   speaker: string = '';
   image: string = '';
-  dishes: DishDto[] = [];
-  attendees: AttendeeDto[] = [];
 
   async addSession() {
     const session: SessionDto = {
@@ -61,8 +59,6 @@ export default class AddSessionView extends Vue {
         theme: this.theme,
         speaker: this.speaker,
         image: this.image,
-        dishes: this.dishes,
-        attendees: this.attendees,
     };
     await RemoteServices.addSession(session);
     this.$router.push('/sessions');
