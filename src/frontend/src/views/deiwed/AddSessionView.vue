@@ -9,21 +9,21 @@
             <!-- name not empty -->
             <v-text-field
             v-model="date"
-            label="Data"
+            label="Data (aaaa/mm/dd)"
             required
-            :rules="[value => !!value || 'Nome é obrigatório']"
+            :rules="[value => !!value || 'Data é obrigatório']"
             ></v-text-field>
             <v-text-field
             v-model="theme"
             label="Tema"
             required
-            :rules="[value => !!value || 'IST ID é obrigatório']"
+            :rules="[value => !!value || 'Tema é obrigatório']"
             ></v-text-field>
             <v-text-field
             v-model="speaker"
             label="Orador"
             required
-            :rules="[value => !!value || 'Tipo é obrigatório']"
+            :rules="[value => !!value || 'Orador é obrigatório']"
             ></v-text-field>
         </v-form>
         <!-- button bottom right -->

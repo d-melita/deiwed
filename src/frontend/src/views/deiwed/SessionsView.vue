@@ -21,7 +21,19 @@
         no-results-text="Nenhuma sessão corresponde aos critérios indicados"
         sort-by="date"
       >
-        <template v-slot:[`item.theme`]="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-btn
+            color="primary"
+            @click="goTo('/sessions/' + item.id)"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="removeSession(item)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
         </template>
       </v-data-table>
       <v-btn
@@ -48,8 +60,10 @@ export default class SessionsView extends Vue {
   headers: DataTableHeader[] = [
     { text: 'ID', value: 'id', sortable: true, filterable: true },
     { text: 'Data', value: 'date', sortable: true, filterable: true },
-    { text: 'Tema', value: 'theme', sortable: true, filterable: true },
     { text: 'Orador', value: 'speaker', sortable: true, filterable: true },
+    { text: 'Tema', value: 'theme', sortable: true, filterable: true },
+    { text: 'Ações', value: 'actions', sortable: false, filterable: false },
+
 ];
   search = '';
   loading = true;
@@ -59,6 +73,18 @@ export default class SessionsView extends Vue {
     try {
       this.sessions = await RemoteServices.getSessions();
       this.loading = false;
+    } catch (error) {
+      this.$store.dispatch('error', error);
+    }
+    await this.$store.dispatch('clearLoading');
+  }
+
+    // remove session
+    async removeSession(session: SessionDto) {
+    await this.$store.dispatch('loading');
+    try {
+      await RemoteServices.removeSession(session.id);
+      this.sessions = this.sessions.filter((a) => a.id !== session.id); // remove from list instead of reloading
     } catch (error) {
       this.$store.dispatch('error', error);
     }
