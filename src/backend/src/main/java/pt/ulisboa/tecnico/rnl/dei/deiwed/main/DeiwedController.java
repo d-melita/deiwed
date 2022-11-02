@@ -66,6 +66,11 @@ public class DeiwedController {
 		return sessionService.getAllSessions();
 	}
 
+	@GetMapping("/sessions/{id}")
+	public SessionDto getSession(@PathVariable long id) {
+		return sessionService.getSession(id);
+	}
+
 	@PostMapping("/sessions")
 	public SessionDto createSession(@RequestBody SessionDto sessionDto) {
 		return sessionService.createSession(sessionDto);

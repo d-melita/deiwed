@@ -23,7 +23,7 @@
       >
         <template v-slot:[`item.id`]="{ item }">
           <v-btn
-            :to="`/deiwed/sessions/${item.id}`"
+            :to="`/sessions/${item.id}`"
             color="primary"
             text
             small
@@ -81,6 +81,7 @@ export default class SessionsView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.sessions = await RemoteServices.getSessions();
+      console.log(this.sessions);
       this.loading = false;
     } catch (error) {
       this.$store.dispatch('error', error);

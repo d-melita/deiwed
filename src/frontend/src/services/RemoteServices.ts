@@ -47,6 +47,18 @@ export default class RemoteServices {
       });
   }
 
+  static async getSession(id: number): Promise<SessionDto[]> {
+    return httpClient
+      .get('/sessions/' + id)
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
   //add attendee to database
   static async addAttendee(attendee: AttendeeDto){
     return httpClient
