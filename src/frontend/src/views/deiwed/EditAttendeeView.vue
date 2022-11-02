@@ -32,7 +32,7 @@
             <v-icon left>mdi-plus</v-icon> Editar Participante
         </v-btn>
         <!-- cancel button bottom left -->
-        <v-btn color="error" class="" @click="goTo('/attendees')">
+        <v-btn color="error" class="" :to="`/attendees/add-attendee`">
             <v-icon left>mdi-close</v-icon> Cancelar
         </v-btn>
         </v-card-text>
@@ -60,14 +60,6 @@ export default class editAttendee extends Vue {
     };
     await RemoteServices.editAttendee(attendee);
     this.$router.push('/attendees');
-  }
-
-  goTo(path: string): void {
-    if (this.$route.path == path) {
-      this.$router.go(0);
-    } else {
-      this.$router.push(path);
-    }
   }
 }
 </script>

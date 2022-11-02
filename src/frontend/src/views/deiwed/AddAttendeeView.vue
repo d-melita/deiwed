@@ -32,7 +32,7 @@
             <v-icon left>mdi-plus</v-icon> Adicionar Participante
         </v-btn>
         <!-- cancel button bottom left -->
-        <v-btn color="error" class="" @click="goTo('/attendees')">
+        <v-btn color="error" class="" :to="`/attendees`">
             <v-icon left>mdi-close</v-icon> Cancelar
         </v-btn>
         </v-card-text>
@@ -59,14 +59,6 @@ export default class AddAttendeeView extends Vue {
     };
     await RemoteServices.addAttendee(attendee);
     this.$router.push('/attendees');
-  }
-
-  goTo(path: string): void {
-    if (this.$route.path == path) {
-      this.$router.go(0);
-    } else {
-      this.$router.push(path);
-    }
   }
 }
 </script>

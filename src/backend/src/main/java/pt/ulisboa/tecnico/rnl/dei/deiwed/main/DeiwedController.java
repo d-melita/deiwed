@@ -71,7 +71,7 @@ public class DeiwedController {
 		return sessionService.createSession(sessionDto);
 	}
 
-	@PutMapping("/sessions/{id}")
+	@PutMapping("/sessions/edit-session{id}")
 	public SessionDto updateSession(@PathVariable long id, @RequestBody SessionDto sessionDto) {
 		return sessionService.updateSession(id, sessionDto);
 	}

@@ -21,10 +21,19 @@
         no-results-text="Nenhuma sessão corresponde aos critérios indicados"
         sort-by="date"
       >
+        <template v-slot:[`item.id`]="{ item }">
+          <v-btn
+            :to="`/deiwed/sessions/${item.id}`"
+            color="primary"
+            text
+            small
+            >{{ item.id }}</v-btn
+          >
+        </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             color="primary"
-            @click="goTo('/sessions/' + item.id)"
+            :to="`/sessions/edit-session${item.id}`"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
@@ -40,7 +49,7 @@
       v-if="!$store.getters.isMobile"
       color="primary"
       class="mx-auto"
-      @click="goTo('/sessions/add-session')"
+      :to="`/sessions/add-session`"
       >
       <v-icon left>mdi-plus</v-icon> Adicionar Sessão
       </v-btn>
@@ -89,14 +98,6 @@ export default class SessionsView extends Vue {
       this.$store.dispatch('error', error);
     }
     await this.$store.dispatch('clearLoading');
-  }
-
-  goTo(path: string) {
-    if (this.$route.path == path) {
-      this.$router.go(0);
-    } else {
-      this.$router.push(path);
-    }
   }
 }
 </script>

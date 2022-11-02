@@ -33,7 +33,7 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             color="primary"
-            @click="goTo('/attendees/' + item.id)"
+            :to="`/attendees/${item.id}`"
           >
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
@@ -50,7 +50,7 @@
       v-if="!$store.getters.isMobile"
       color="primary"
       class="mx-auto"
-      @click="goTo('/attendees/add-attendee')"
+      :to="`/attendees/add-attendee`"
       >
       <v-icon left>mdi-plus</v-icon> Adicionar Participante
       </v-btn>
@@ -100,15 +100,6 @@ export default class AttendeesView extends Vue {
       this.$store.dispatch('error', error);
     }
     await this.$store.dispatch('clearLoading');
-  }
-
-
-  goTo(path: string) {
-    if (this.$route.path == path) {
-      this.$router.go(0);
-    } else {
-      this.$router.push(path);
-    }
   }
 }
 </script>

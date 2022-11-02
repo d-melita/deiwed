@@ -86,7 +86,7 @@ export default class RemoteServices {
 
   static async editSession(session: SessionDto){
     return httpClient
-      .put('/sessions/' + session.id, session)
+      .put('/sessions/edit-session' + session.id, session)
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(
