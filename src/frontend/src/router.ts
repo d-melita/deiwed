@@ -41,6 +41,11 @@ const router = new Router({
       path: '/sessions/add-session',
       name: 'addsession',
       component: () => import('@/views/deiwed/AddSessionView.vue'),
+    },
+    {
+      path: '/sessions/:id',
+      name: 'editsession',
+      component: () => import('@/views/deiwed/EditSessionView.vue'),
     }
   ],
 });

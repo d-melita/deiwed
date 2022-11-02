@@ -71,6 +71,12 @@ public class DeiwedController {
 		return sessionService.createSession(sessionDto);
 	}
 
+	@PutMapping("/sessions/{id}")
+	public SessionDto updateSession(@PathVariable long id, @RequestBody SessionDto sessionDto) {
+		return sessionService.updateSession(id, sessionDto);
+	}
+
+
 	@DeleteMapping("/sessions/{id}")
 	public void deleteSessions(@PathVariable long id) {
 		sessionService.deleteSession(id);
