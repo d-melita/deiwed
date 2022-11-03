@@ -51,7 +51,7 @@ const router = new Router({
       path: '/sessions/:id',
       name: 'session',
       component: () => import('@/views/deiwed/SessionView.vue'),
-    }
+    },
   ],
 });
 

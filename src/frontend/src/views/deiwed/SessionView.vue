@@ -26,7 +26,7 @@
                         <v-card-text>
                             <v-data-table
                                 :headers="headers_attendees"
-                                :items="attendees"
+                                :items="attendees_of_session"
                                 :loading="loading"
                                 single-select
                                 locale="pt-PT"
@@ -34,15 +34,6 @@
                                 no-results-text="Nenhum participante corresponde aos critérios indicados"
                                 sort-by="name"
                             >
-                                <template v-slot:[`item.id`]="{ item }">
-                                    <v-btn
-                                        :to="`/attendees/${item.id}`"
-                                        color="primary"
-                                        text
-                                        small
-                                        >{{ item.id }}</v-btn
-                                    >
-                                </template>
                                 <template v-slot:[`item.actions`]="{ item }">
                                     <v-btn
                                         color="error"
@@ -52,15 +43,48 @@
                                     </v-btn>
                                 </template>
                             </v-data-table>
-                            <v-btn
-                                v-if="!$store.getters.isMobile"
-                                color="primary"
-                                class="mx-auto"
-                                :to="`/attendees/add-attendee`"
-                            >
-                                <v-icon left>mdi-plus</v-icon> Adicionar
-                                Participante
-                            </v-btn>
+                            <v-dialog v-model="dialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark class="mb-2" v-on="on">
+                <v-icon left>mdi-plus</v-icon> Adicionar Participante
+            </v-btn>
+        </template>
+        <v-card>
+            <v-card-title>
+                <span class="headline">Adicionar Participante</span>
+            </v-card-title>
+            <v-card-text>
+                <v-container>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-autocomplete
+                                v-model="attendee"
+                                :items="attendees"
+                                :search-input.sync="search"
+                                item-text="name"
+                                item-value="id"
+                                label="Participante"
+                                return-object
+                                outlined
+                                dense
+                                clearable
+                                :loading="loading"
+                                :no-data-text="noDataText"
+                                :no-filter="!search"
+                                :loading-text="loadingText"
+                                :error-messages="errors.attendee"
+                            ></v-autocomplete>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="save">Salvar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -113,6 +137,7 @@
 
 <script lang="ts">
 import SessionDto from '@/models/deiwed/SessionDto';
+import SessionAttendeesDto from '@/models/deiwed/SessionAttendeesDto';
 import AttendeeDto from '@/models/deiwed/AttendeeDto';
 import DishDto from '@/models/deiwed/DishDto';
 import RemoteServices from '@/services/RemoteServices';
@@ -121,9 +146,17 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component
 export default class SessionView extends Vue {
     session: SessionDto = new SessionDto();
+    attendee: AttendeeDto = new AttendeeDto();
+    attendees_id: SessionAttendeesDto[] = [];
+    attendees_of_session: AttendeeDto[] = [];
     attendees: AttendeeDto[] = [];
     dishes: DishDto[] = [];
+    dialog = false;
+    search = "";
     loading = false;
+    loadingText = "A procurar...";
+    noDataText = "Não foram encontrados participantes";
+    errors: any = {};
 
     // v-tabs
     tab = null;
@@ -147,7 +180,51 @@ export default class SessionView extends Vue {
     async mounted() {
         this.loading = true;
         this.session = await RemoteServices.getSession(parseInt(this.$route.params.id));
+        this.attendees_id = await RemoteServices.getAllSessionAttendees(this.session.id);
+        // for loop to get all attendees
+        for (let i = 0; i < this.attendees_id.length; i++) {
+            this.attendees_of_session.push(await RemoteServices.getAttendee(this.attendees_id[i].attendeeId));
+        }
+        await this.getAttendees();
         this.loading = false;
+    }
+
+    async removeAttendee(attendee: AttendeeDto) {
+        this.loading = true;
+        await RemoteServices.removeAttendeeFromSession(this.session.id, attendee.id);
+        this.loading = false;
+        // refresh page to garantee that the attendee is removed from table and from attendees_of_session
+        this.$router.go(0);
+    }
+
+    async getAttendees() {
+        this.loading = true;
+        this.attendees = await RemoteServices.getAttendees();
+        // remove attendees that are already in the session
+        for (let i = 0; i < this.attendees_of_session.length; i++) {
+            this.attendees = this.attendees.filter((a) => a.id !== this.attendees_of_session[i].id);
+        }
+        this.loading = false;
+    }
+
+    async save(): Promise<void> {
+        this.errors = {};
+        if (this.attendee.id == null) {
+            this.errors.attendee = ["O campo participante é obrigatório"];
+            return;
+        }
+        const sessionAttendee = new SessionAttendeesDto();
+        sessionAttendee.attendeeId = this.attendee.id;
+        sessionAttendee.sessionId = this.session.id;
+        await RemoteServices.addAttendeeToSession(sessionAttendee);
+        this.close();
+        // refresh page
+        this.$router.go(0);
+    }
+
+    close() {
+        this.dialog = false;
+        this.attendee = new AttendeeDto();
     }
 }
 </script>

@@ -44,6 +44,16 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </template>
+        <template v-slot:[`item.see_details`]="{ item }">
+          <!-- small button to see attendee sessions, centered with header title -->
+          <v-btn
+            x-small
+            color="primary"
+            :to="`/attendees/${item.id}`"
+          >
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
         <!-- add attendee button-->
       <v-btn
@@ -74,6 +84,7 @@ export default class AttendeesView extends Vue {
     { text: 'Tipo', value: 'type', sortable: true, filterable: false },
     // TODO: maybe add another column with possible actions? (edit / delete)
     { text: 'Ações', value: 'actions', sortable: false, filterable: false },
+    { text: 'Ver Sessões', value: 'see_details', sortable: false, filterable: false },
   ];
 
   search = '';
@@ -103,3 +114,7 @@ export default class AttendeesView extends Vue {
   }
 }
 </script>
+
+
+<!-- TO DO:
+ALLIN TABLES -->

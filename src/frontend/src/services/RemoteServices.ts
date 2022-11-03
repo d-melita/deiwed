@@ -1,5 +1,6 @@
 import AttendeeDto from '@/models/deiwed/AttendeeDto';
 import SessionDto from '@/models/deiwed/SessionDto';
+import SessionAttendeesDto from '@/models/deiwed/SessionAttendeesDto';  
 import DeiwedError from '@/models/error/DeiwedError';
 import DishDto from '@/models/deiwed/DishDto';
 import axios from 'axios';
@@ -13,6 +14,18 @@ export default class RemoteServices {
   static async getAttendees(): Promise<AttendeeDto[]> {
     return httpClient
       .get('/attendees')
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async getAttendee(id: number): Promise<AttendeeDto> {
+    return httpClient
+      .get('/attendees/' + id)
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(
@@ -123,6 +136,43 @@ export default class RemoteServices {
   static async addSession(session: SessionDto){
     return httpClient
       .post('/sessions', session)
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async getAllSessionAttendees(id: number): Promise<SessionAttendeesDto[]> {
+    return httpClient
+      .get('/sessions/' + id + '/attendees')
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async addAttendeeToSession(sessionAttendee: SessionAttendeesDto){
+    return httpClient
+      .post('/sessions/' + sessionAttendee.sessionId + '/attendees/' + sessionAttendee.attendeeId, 
+      sessionAttendee)
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static async removeAttendeeFromSession(sessionId: number, attendeeId: number){
+    return httpClient
+      .delete('/sessions/' + sessionId + '/attendees/' + attendeeId)
       .then((response) => response.data)
       .catch(async (error) => {
         throw new DeiwedError(

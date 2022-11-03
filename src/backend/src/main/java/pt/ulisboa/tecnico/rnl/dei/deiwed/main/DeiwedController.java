@@ -20,6 +20,9 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.DishService;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionDto;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.SessionService;
 
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionAttendeesDto;
+import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.SessionsAttendeesService;
+
 @RestController
 public class DeiwedController {
 	
@@ -28,6 +31,8 @@ public class DeiwedController {
 	private DishService dishService;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private SessionsAttendeesService sessionsAttendeesService;
 
 	@GetMapping("/attendees")
 	public List<AttendeeDto> getAttendees() {
@@ -71,6 +76,11 @@ public class DeiwedController {
 		return sessionService.getSession(id);
 	}
 
+	@GetMapping("/sessions/{id}/attendees")
+	public List<SessionAttendeesDto> getSessionAttendees(@PathVariable long id) {
+		return sessionsAttendeesService.getAllSessionAttendees(id);
+	}
+
 	@PostMapping("/sessions")
 	public SessionDto createSession(@RequestBody SessionDto sessionDto) {
 		return sessionService.createSession(sessionDto);
@@ -86,4 +96,16 @@ public class DeiwedController {
 	public void deleteSessions(@PathVariable long id) {
 		sessionService.deleteSession(id);
 	}
+
+	@PostMapping("/sessions/{sessionId}/attendees/{attendeeId}")
+	public SessionAttendeesDto createSession(@RequestBody SessionAttendeesDto sessionAttendeeDto) {
+		return sessionsAttendeesService.createSessionAttendees(sessionAttendeeDto);
+	}
+
+	// DELETE FROM SESSION_ATTENDEES WHERE SESSION_ID = SESSIONID AND ATTENDEE_ID = ATTENDEEID
+	@DeleteMapping("/sessions/{sessionId}/attendees/{attendeeId}")
+	public void deleteAttendeeFromSession(@PathVariable long sessionId, @PathVariable long attendeeId) {
+		sessionsAttendeesService.deleteAttendeeFromSession(sessionId, attendeeId);
+	}
+
 }
