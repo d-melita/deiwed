@@ -47,7 +47,7 @@ export default class RemoteServices {
       });
   }
 
-  static async getSession(id: number): Promise<SessionDto[]> {
+  static async getSession(id: number): Promise<SessionDto> {
     return httpClient
       .get('/sessions/' + id)
       .then((response) => response.data)
