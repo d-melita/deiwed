@@ -40,7 +40,6 @@
 
 <script lang="ts">
 import AttendeeDto from '@/models/deiwed/AttendeeDto';
-import DishDto from '@/models/deiwed/DishDto';
 import SessionDto from '@/models/deiwed/SessionDto';
 import RemoteServices from '@/services/RemoteServices';
 import { Component, Vue } from 'vue-property-decorator';

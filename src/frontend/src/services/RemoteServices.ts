@@ -2,7 +2,6 @@ import AttendeeDto from '@/models/deiwed/AttendeeDto';
 import SessionDto from '@/models/deiwed/SessionDto';
 import SessionAttendeesDto from '@/models/deiwed/SessionAttendeesDto';  
 import DeiwedError from '@/models/error/DeiwedError';
-import DishDto from '@/models/deiwed/DishDto';
 import axios from 'axios';
 
 const httpClient = axios.create();
@@ -36,7 +35,7 @@ export default class RemoteServices {
   }
 
   // get dishes from "https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/dishes"
-  static getDishes(): Promise<DishDto[]> {
+  static getDishes(): Promise<[]> {
     return axios
       .get('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/dishes')
       .then((response) => response.data)

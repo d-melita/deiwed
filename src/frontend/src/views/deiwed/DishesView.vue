@@ -39,14 +39,13 @@
 </template>
 
 <script lang="ts">
-import DishDto from '@/models/deiwed/DishDto';
 import RemoteServices from '@/services/RemoteServices';
 import { Component, Vue } from 'vue-property-decorator';
 import { DataTableHeader } from 'vuetify';
 
 @Component
 export default class DishesView extends Vue {
-  dishes: DishDto[] = [];
+  dishes: []  = [];
   headers: DataTableHeader[] = [
     { text: 'ID', value: 'id', sortable: true, filterable: true },
     { text: 'Nome', value: 'name', sortable: true, filterable: true },

@@ -153,7 +153,6 @@
 import SessionDto from '@/models/deiwed/SessionDto';
 import SessionAttendeesDto from '@/models/deiwed/SessionAttendeesDto';
 import AttendeeDto from '@/models/deiwed/AttendeeDto';
-import DishDto from '@/models/deiwed/DishDto';
 import RemoteServices from '@/services/RemoteServices';
 import { Component, Vue } from 'vue-property-decorator';
 
@@ -164,7 +163,7 @@ export default class SessionView extends Vue {
     attendees_id: SessionAttendeesDto[] = [];
     attendees_of_session: AttendeeDto[] = [];
     attendees: AttendeeDto[] = [];
-    dishes: DishDto[] = [];
+    dishes: [] = [];
     dialog = false;
     search = "";
     loading = false;

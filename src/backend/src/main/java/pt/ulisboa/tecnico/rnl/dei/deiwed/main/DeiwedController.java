@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.AttendeeDto;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.AttendeeService;
 
-import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.DishDto;
-import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.DishService;
-
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionDto;
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.service.SessionService;
 
@@ -28,7 +25,6 @@ public class DeiwedController {
 	
 	@Autowired
 	private AttendeeService attendeeService;
-	private DishService dishService;
 	@Autowired
 	private SessionService sessionService;
 	@Autowired
@@ -57,12 +53,6 @@ public class DeiwedController {
 	@DeleteMapping("/attendees/{id}")
 	public void deleteAttendee(@PathVariable long id) {
 		attendeeService.deleteAttendee(id);
-	}
-
-	// Get Dishes
-	@GetMapping("/dishes")
-	public List<DishDto> getDishes() {
-		return dishService.getAllDishes();
 	}
 
 	// Get Sessions
