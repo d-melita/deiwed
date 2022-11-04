@@ -47,10 +47,10 @@ export default class RemoteServices {
       });
   }
 
-  static getSessionDishes(date: string): Promise<[]> {
+  static getSessionDishes(date: string): Promise<any[]> {
     return axios
       .get('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date)
-      .then((response) => response.data)
+      .then((response) => [response.data])
       .catch(async (error) => {
         if (error.response.status === 404) {
           return [];

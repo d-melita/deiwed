@@ -166,7 +166,7 @@ export default class SessionView extends Vue {
     attendees_id: SessionAttendeesDto[] = [];
     attendees_of_session: AttendeeDto[] = [];
     attendees: AttendeeDto[] = [];
-    dishes: [] = [];
+    dishes: any[] = [];
     dialog = false;
     search = "";
     loading = false;
@@ -202,7 +202,9 @@ export default class SessionView extends Vue {
             this.attendees_of_session.push(await RemoteServices.getAttendee(this.attendees_id[i].attendeeId));
         }
         await this.getAttendees();
-        this.dishes = await RemoteServices.getSessionDishes(this.session.date);  
+        this.dishes = await RemoteServices.getSessionDishes(this.session.date);
+        console.log(this.dishes)
+        this.dishes = [this.dishes[0].normalOption, this.dishes[0].vegetarianOption];
         this.loading = false;
     }
 
