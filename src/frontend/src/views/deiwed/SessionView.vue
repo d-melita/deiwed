@@ -215,8 +215,9 @@ export default class SessionView extends Vue {
         }
         await this.getAttendees();
         this.dishes = await RemoteServices.getSessionDishes(this.session.date);
-        console.log(this.dishes)
-        this.dishes = [this.dishes[0].normalOption, this.dishes[0].vegetarianOption];
+        if (this.dishes.length > 0) {
+            this.dishes = [this.dishes[0].normalOption, this.dishes[0].vegetarianOption];
+        }
         this.loading = false;
     }
 
