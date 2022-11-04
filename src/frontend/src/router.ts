@@ -57,6 +57,11 @@ const router = new Router({
       name: 'attendee-sessions',
       component: () => import('@/views/deiwed/AttendeeSessionsView.vue'),
     },
+    {
+      path: '/session:id-make-order',
+      name: 'make-order',
+      component: () => import('@/views/deiwed/SessionMakeOrderView.vue'),
+    }
   ],
 });
 

@@ -9,7 +9,7 @@
             <!-- name not empty -->
             <v-text-field
             v-model="date"
-            label="Data (aaaa/mm/dd)"
+            label="Data (aaaa-mm-dd)"
             required
             :rules="[value => !!value || 'Data é obrigatório']"
             ></v-text-field>

@@ -110,31 +110,34 @@
                                 no-results-text="Nenhum prato corresponde aos critérios indicados"
                                 sort-by="name"
                             >
-                                <template v-slot:[`item.id`]="{ item }">
-                                    <v-btn
-                                        :to="`/dishes/${item.id}`"
-                                        color="primary"
-                                        text
-                                        small
-                                        >{{ item.id }}</v-btn
-                                    >
-                                </template>
-                                <template v-slot:[`item.actions`]="{ item }">
-                                    <v-btn
-                                        color="error"
-                                        @click="removeDish(item)"
-                                    >
-                                        <v-icon>mdi-delete</v-icon>
-                                    </v-btn>
-                                </template>
                             </v-data-table>
+                            <!-- v-bt no add dishes if dishes == [] -->
                             <v-btn
-                                v-if="!$store.getters.isMobile"
                                 color="primary"
-                                class="mx-auto"
-                                :to="`/dishes/add-dish`"
+                                dark
+                                class="mb-2"
+                                :to="`/session${session.id}-make-order`"
+                                v-if="dishes.length == 0"
                             >
-                                <v-icon left>mdi-plus</v-icon> Adicionar Prato
+                                <v-icon left>mdi-plus</v-icon> Fazer Encomenda
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                dark
+                                class="mb-2"
+                                @click="removeOrder()"
+                                v-if="dishes.length > 0"
+                            >
+                                <v-icon left>mdi-plus</v-icon> Editar Encomenda
+                            </v-btn>
+                            <v-btn
+                                color="primary"
+                                dark
+                                class="mb-2"
+                                :to="`/session/${session.id}/edit-order`"
+                                v-if="dishes.length > 0"
+                            >
+                                <v-icon left>mdi-plus</v-icon> Remover Encomenda
                             </v-btn>
                         </v-card-text>
                     </v-card>
@@ -188,7 +191,6 @@ export default class SessionView extends Vue {
         { text: 'Nome', value: 'name', sortable: true, filterable: true },
         { text: 'Preço', value: 'unitPrice', sortable: true, filterable: true },
         { text: 'Descrição', value: 'description', sortable: true, filterable: true },
-        { text: 'Ações', value: 'actions', sortable: false },
     ];
 
     async mounted() {
@@ -200,6 +202,7 @@ export default class SessionView extends Vue {
             this.attendees_of_session.push(await RemoteServices.getAttendee(this.attendees_id[i].attendeeId));
         }
         await this.getAttendees();
+        this.dishes = await RemoteServices.getSessionDishes(this.session.date);  
         this.loading = false;
     }
 
