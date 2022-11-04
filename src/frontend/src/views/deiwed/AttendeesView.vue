@@ -45,11 +45,11 @@
           </v-btn>
         </template>
         <template v-slot:[`item.see_details`]="{ item }">
-          <!-- small button to see attendee sessions, centered with header title -->
+          <!-- small button to see attendee sessions-->
           <v-btn
             x-small
             color="primary"
-            :to="`/attendees/${item.id}`"
+            :to="`/attendee${item.id}/sessions`"
           >
             <v-icon>mdi-eye</v-icon>
           </v-btn>

@@ -42,49 +42,58 @@
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </template>
+                                <template v-slot:[`item.details`]="{ item }">
+                                    <!-- small button to see session details-->
+                                    <v-btn
+                                        x-small
+                                        color="primary"
+                                        :to="`/attendee${item.id}/sessions`"
+                                    >
+                                        <v-icon>mdi-eye</v-icon>
+                                    </v-btn>
+                                </template>
                             </v-data-table>
                             <v-dialog v-model="dialog" max-width="500px">
-        <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">
-                <v-icon left>mdi-plus</v-icon> Adicionar Participante
-            </v-btn>
-        </template>
-        <v-card>
-            <v-card-title>
-                <span class="headline">Adicionar Participante</span>
-            </v-card-title>
-            <v-card-text>
-                <v-container>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-autocomplete
-                                v-model="attendee"
-                                :items="attendees"
-                                :search-input.sync="search"
-                                item-text="name"
-                                item-value="id"
-                                label="Participante"
-                                return-object
-                                outlined
-                                dense
-                                clearable
-                                :loading="loading"
-                                :no-data-text="noDataText"
-                                :no-filter="!search"
-                                :loading-text="loadingText"
-                                :error-messages="errors.attendee"
-                            ></v-autocomplete>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Salvar</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn color="primary" dark class="mb-2" v-on="on">
+                                        <v-icon left>mdi-plus</v-icon> Adicionar Participante
+                                    </v-btn>
+                                </template>
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="headline">Adicionar Participante</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-container>
+                                            <v-row>
+                                                <v-col cols="12">
+                                                    <v-autocomplete
+                                                        v-model="attendee"
+                                                        :items="attendees"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        label="Participante"
+                                                        return-object
+                                                        outlined
+                                                        dense
+                                                        clearable
+                                                        :loading="loading"
+                                                        :no-data-text="noDataText"
+                                                        :no-filter="!search"
+                                                        :loading-text="loadingText"
+                                                        :error-messages="errors.attendee"
+                                                    ></v-autocomplete>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
+                                        <v-btn color="blue darken-1" text @click="save">Salvar</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                                </v-dialog>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -132,6 +141,11 @@
                 </v-tab-item>
             </v-tabs>
         </v-card-text>
+        <!-- go to sessions button on top right -->
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text :to="`/sessions`">Todas as Sessões</v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 
@@ -167,6 +181,7 @@ export default class SessionView extends Vue {
         { text: 'IST ID', value: 'istId', sortable: true, filterable: true },
         { text: 'Tipo', value: 'type', sortable: true, filterable: false },
         { text: 'Ações', value: 'actions', sortable: false },
+        { text: 'Ver Sessões', value: 'details', sortable: false, filterable: false },
     ];
 
     // dishes table
@@ -209,7 +224,7 @@ export default class SessionView extends Vue {
 
     async save(): Promise<void> {
         this.errors = {};
-        if (this.attendee.id == null) {
+        if (this.attendee.id === 0) {
             this.errors.attendee = ["O campo participante é obrigatório"];
             return;
         }

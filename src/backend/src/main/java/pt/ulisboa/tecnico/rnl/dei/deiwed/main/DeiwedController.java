@@ -81,6 +81,11 @@ public class DeiwedController {
 		return sessionsAttendeesService.getAllSessionAttendees(id);
 	}
 
+	@GetMapping("/attendee{id}/sessions")
+	public List<SessionAttendeesDto> getAttendeeSessions(@PathVariable long id) {
+		return sessionsAttendeesService.getAllAttendeeSessions(id);
+	}
+
 	@PostMapping("/sessions")
 	public SessionDto createSession(@RequestBody SessionDto sessionDto) {
 		return sessionService.createSession(sessionDto);

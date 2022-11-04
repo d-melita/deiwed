@@ -21,15 +21,6 @@
         no-results-text="Nenhuma sessão corresponde aos critérios indicados"
         sort-by="date"
       >
-        <template v-slot:[`item.id`]="{ item }">
-          <v-btn
-            :to="`/sessions/${item.id}`"
-            color="primary"
-            text
-            small
-            >{{ item.id }}</v-btn
-          >
-        </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn
             color="primary"
@@ -44,6 +35,16 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </template>
+        <template v-slot:[`item.details`]="{ item }">
+        <!-- small button to see session details-->
+        <v-btn
+          x-small
+          color="primary"
+          :to="`/sessions/${item.id}`"
+        >
+          <v-icon>mdi-eye</v-icon>
+        </v-btn>
+      </template>
       </v-data-table>
       <v-btn
       v-if="!$store.getters.isMobile"
@@ -72,6 +73,7 @@ export default class SessionsView extends Vue {
     { text: 'Orador', value: 'speaker', sortable: true, filterable: true },
     { text: 'Tema', value: 'theme', sortable: true, filterable: true },
     { text: 'Ações', value: 'actions', sortable: false, filterable: false },
+    { text: 'Ver Detalhes', value: 'details', sortable: false, filterable: false },
 
 ];
   search = '';
