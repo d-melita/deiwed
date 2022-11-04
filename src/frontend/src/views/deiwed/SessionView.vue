@@ -110,8 +110,19 @@
                                 no-results-text="Nenhum prato corresponde aos critérios indicados"
                                 sort-by="name"
                             >
+                            <!-- type ? vegetarian: true, normal: false -->
+                            <template v-slot:[`item.vegetarian`]="{ item }">
+                                <v-chip
+                                    v-if="item.vegetarian === true"
+                                    color="green"
+                                    text-color="white"
+                                >
+                                    Vegetariano
+                                </v-chip>
+                                <v-chip v-else color="red" text-color="white"> Normal </v-chip>
+                            </template>
                             </v-data-table>
-                            <!-- v-bt no add dishes if dishes == [] -->
+                            <!-- v-btn no add dishes if dishes == [] -->
                             <v-btn
                                 color="primary"
                                 dark
@@ -125,7 +136,7 @@
                                 color="primary"
                                 dark
                                 class="mb-2"
-                                @click="removeOrder()"
+                                :to="`/session${session.id}-edit-order`"
                                 v-if="dishes.length > 0"
                             >
                                 <v-icon left>mdi-plus</v-icon> Editar Encomenda
@@ -134,7 +145,7 @@
                                 color="primary"
                                 dark
                                 class="mb-2"
-                                :to="`/session/${session.id}/edit-order`"
+                                @click="removeOrder()"
                                 v-if="dishes.length > 0"
                             >
                                 <v-icon left>mdi-plus</v-icon> Remover Encomenda
@@ -191,6 +202,7 @@ export default class SessionView extends Vue {
         { text: 'Nome', value: 'name', sortable: true, filterable: true },
         { text: 'Preço', value: 'unitPrice', sortable: true, filterable: true },
         { text: 'Descrição', value: 'description', sortable: true, filterable: true },
+        { text: 'Opção', value: 'vegetarian', sortable: true, filterable: true },
     ];
 
     async mounted() {
@@ -244,6 +256,14 @@ export default class SessionView extends Vue {
     close() {
         this.dialog = false;
         this.attendee = new AttendeeDto();
+    }
+
+    removeOrder() {
+        this.loading = true;
+        RemoteServices.removeOrder(this.session.date);
+        this.loading = false;
+        // refresh page
+        this.$router.go(0);
     }
 }
 </script>

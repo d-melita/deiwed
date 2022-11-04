@@ -79,6 +79,38 @@ export default class RemoteServices {
       });
   }
 
+  static editOrder(normalOptionDishId: number, vegetarianOptionDishId:number, date:string)
+  {
+    return axios
+      .put('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date, {
+        "normalOptionDishId": normalOptionDishId,
+        "vegetarianOptionDishId": vegetarianOptionDishId
+      }, {headers: {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": " Bearer ist199202"}}
+      )
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
+  static removeOrder(date: string)
+  {
+    return axios
+      .delete('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date, 
+      {headers: {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": " Bearer ist199202"}}
+      )
+      .then((response) => response.data)
+      .catch(async (error) => {
+        throw new DeiwedError(
+          await this.errorMessage(error),
+          error.response.data.code
+        );
+      });
+  }
+
   static async getSessions(): Promise<SessionDto[]> {
     return httpClient
       .get('/sessions')
