@@ -18,7 +18,7 @@
         locale="pt-PT"
         no-data-text="Não existem participantes registados"
         no-results-text="Nenhum participante corresponde aos critérios indicados"
-        sort-by="name"
+        sort-by="id"
       >
         <template v-slot:[`item.type`]="{ item }">
           <v-chip
@@ -113,5 +113,3 @@ export default class AttendeesView extends Vue {
   }
 }
 </script>
-
-<!-- TO DO: ALLIGN TABLES -->

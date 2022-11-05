@@ -34,6 +34,16 @@
                                 no-results-text="Nenhum participante corresponde aos critérios indicados"
                                 sort-by="name"
                             >
+                                <template v-slot:[`item.type`]="{ item }">
+                                    <v-chip
+                                        v-if="item.type === 'Professor'"
+                                        color="purple"
+                                        text-color="white"
+                                    >
+                                    Professor
+                                    </v-chip>
+                                    <v-chip v-else color="green" text-color="white"> Bolseiro </v-chip>
+                                </template>
                                 <template v-slot:[`item.actions`]="{ item }">
                                     <v-btn
                                         color="error"

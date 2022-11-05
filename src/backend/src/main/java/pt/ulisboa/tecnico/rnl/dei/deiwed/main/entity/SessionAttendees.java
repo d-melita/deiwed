@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionAttendeesDto;
@@ -13,7 +14,8 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.SessionAttendeesDto;
 public class SessionAttendees {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+
     private Long id;
 
     @Column(name = "session_id", nullable = false)

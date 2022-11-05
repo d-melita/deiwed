@@ -19,7 +19,7 @@
         locale="pt-PT"
         no-data-text="Não existem sessões registadas"
         no-results-text="Nenhuma sessão corresponde aos critérios indicados"
-        sort-by="date"
+        sort-by="id"
       >
         <template v-slot:[`item.actions`]="{ item }">
           <v-btn

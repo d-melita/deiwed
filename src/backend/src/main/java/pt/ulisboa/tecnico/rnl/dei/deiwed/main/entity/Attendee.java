@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.rnl.dei.deiwed.main.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +14,7 @@ import pt.ulisboa.tecnico.rnl.dei.deiwed.main.dto.AttendeeDto;
 public class Attendee {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "name", nullable = false)
