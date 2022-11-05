@@ -1,0 +1,77 @@
+/* style ../views/HomeView.vue */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.home-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  position: absolute;
+  top: 35%;
+}
+
+.home-text h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  color: rgb(91, 192, 231);
+  text-align: center;
+}
+
+.home-text h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.att-button {
+    position: absolute;
+    top: 60%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: rgb(91, 192, 231);
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 2px solid rgb(91, 192, 231);
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.dish-button {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 2px solid rgb(91, 192, 231);
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.sess-button {
+    position: absolute;
+    top: 60%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 2px solid rgb(91, 192, 231);
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+}

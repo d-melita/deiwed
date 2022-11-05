@@ -192,6 +192,10 @@ throw new Error('Method not implemented.');
     this.$store.dispatch('setDarkMode', this.darkMode);
     this.$vuetify.theme.dark = this.darkMode;
   }
+
+  getDarkMode() {
+    return this.$store.getters.isDarkMode;
+  }
 }
 </script>
 

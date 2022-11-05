@@ -82,7 +82,6 @@ export default class AttendeesView extends Vue {
     { text: 'Nome', value: 'name', sortable: true, filterable: true },
     { text: 'IST ID', value: 'istId', sortable: true, filterable: true },
     { text: 'Tipo', value: 'type', sortable: true, filterable: false },
-    // TODO: maybe add another column with possible actions? (edit / delete)
     { text: 'Ações', value: 'actions', sortable: false, filterable: false },
     { text: 'Ver Sessões', value: 'see_details', sortable: false, filterable: false },
   ];
@@ -115,6 +114,4 @@ export default class AttendeesView extends Vue {
 }
 </script>
 
-
-<!-- TO DO:
-ALLIN TABLES -->
+<!-- TO DO: ALLIGN TABLES -->
