@@ -20,7 +20,7 @@
         locale="pt-PT"
         no-data-text="Não existem pratos registados"
         no-results-text="Nenhum prato corresponde aos critérios indicados"
-        sort-by="name"
+        sort-by="id"
       >
       <!-- type ? vegetarian: true, normal: false -->
         <template v-slot:[`item.vegetarian`]="{ item }">

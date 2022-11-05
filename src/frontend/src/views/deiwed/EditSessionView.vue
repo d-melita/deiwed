@@ -6,24 +6,26 @@
         </v-card-title>
         <v-card-text>
         <v-form>
-            <!-- name not empty -->
+            <v-card-title class="text-center">
+                <h3>Data Atual: {{ current_session.date }}</h3>
+            </v-card-title>
             <v-text-field
             v-model="date"
-            label="Data (aaaa/mm/dd)"
-            required
-            :rules="[value => !!value || 'Data é obrigatório']"
+            label="Data (aaaa-mm-dd)"
             ></v-text-field>
+            <v-card-title class="text-center">
+                <h3>Tema Atual: {{ current_session.theme }}</h3>
+            </v-card-title>
             <v-text-field
             v-model="theme"
             label="Tema"
-            required
-            :rules="[value => !!value || 'Tema é obrigatório']"
             ></v-text-field>
+            <v-card-title class="text-center">
+                <h3>Orador Atual: {{ current_session.speaker }}</h3>
+            </v-card-title>
             <v-text-field
             v-model="speaker"
             label="Orador"
-            required
-            :rules="[value => !!value || 'Orador é obrigatório']"
             ></v-text-field>
         </v-form>
         <!-- button bottom right -->
@@ -51,6 +53,12 @@ export default class editSession extends Vue {
     speaker: string = '';
     image: string = '';
 
+    current_session: SessionDto = new SessionDto();
+
+    async mounted() {
+        this.current_session = await RemoteServices.getSession(parseInt(this.$route.params.id));
+    }
+
   async editSession() {
     const session: SessionDto = {
         id: parseInt(this.$router.currentRoute.params.id),
@@ -59,6 +67,18 @@ export default class editSession extends Vue {
         speaker: this.speaker,
         image: this.image,
     };
+    if (session.date === '') {
+        session.date = this.current_session.date;
+    }
+    if (session.theme === '') {
+        session.theme = this.current_session.theme;
+    }
+    if (session.speaker === '') {
+        session.speaker = this.current_session.speaker;
+    }
+    if (session.image === '') {
+        session.image = this.current_session.image;
+    }
     await RemoteServices.editSession(session);
     this.$router.push('/sessions');
   }

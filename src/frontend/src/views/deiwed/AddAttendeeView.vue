@@ -9,13 +9,13 @@
             <!-- name not empty -->
             <v-text-field
             v-model="name"
-            label="Nome"
+            label="Nome (Primeiro e Último)"
             required
             :rules="[value => !!value || 'Nome é obrigatório']"
             ></v-text-field>
             <v-text-field
             v-model="istId"
-            label="IST ID"
+            label="IST ID (istXXXXXX)"
             required
             :rules="[value => !!value || 'IST ID é obrigatório']"
             ></v-text-field>
