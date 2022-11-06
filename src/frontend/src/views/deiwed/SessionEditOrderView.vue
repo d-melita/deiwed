@@ -7,7 +7,7 @@
                 <v-col cols="12" md="6">
                     <v-select
                         :items="normalDishes"
-                        item-text="name"
+                        item-text="description"
                         item-value="id"
                         label="Prato Normal"
                         v-model="normalOptionDishId"
@@ -16,7 +16,7 @@
                 <v-col cols="12" md="6">
                     <v-select
                         :items="vegDishes"
-                        item-text="name"
+                        item-text="description"
                         item-value="id"
                         label="Prato Vegetariano"
                         v-model="vegetarianOptionDishId"

@@ -36,7 +36,7 @@ export default class RemoteServices {
 
   // get dishes from "https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/dishes"
   static getDishes(): Promise<[]> {
-    return axios
+    return httpClient
       .get('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/dishes')
       .then((response) => response.data)
       .catch(async (error) => {
@@ -48,7 +48,7 @@ export default class RemoteServices {
   }
 
   static getSessionDishes(date: string): Promise<any[]> {
-    return axios
+    return httpClient
       .get('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date)
       .then((response) => [response.data])
       .catch(async (error) => {
@@ -64,7 +64,7 @@ export default class RemoteServices {
 
   static makeOrder(normalOptionDishId: number, vegetarianOptionDishId:number, date:string)
   {
-    return axios
+    return httpClient
       .post('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date, {
         "normalOptionDishId": normalOptionDishId,
         "vegetarianOptionDishId": vegetarianOptionDishId
@@ -81,7 +81,7 @@ export default class RemoteServices {
 
   static editOrder(normalOptionDishId: number, vegetarianOptionDishId:number, date:string)
   {
-    return axios
+    return httpClient
       .put('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date, {
         "normalOptionDishId": normalOptionDishId,
         "vegetarianOptionDishId": vegetarianOptionDishId
@@ -98,7 +98,7 @@ export default class RemoteServices {
 
   static removeOrder(date: string)
   {
-    return axios
+    return httpClient
       .delete('https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/api/v1/orders/' + date, 
       {headers: {'Content-Type': 'application/json', "Accept": "application/json", "Authorization": " Bearer ist199202"}}
       )
