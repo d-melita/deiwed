@@ -48,7 +48,7 @@
       </v-data-table>
       <v-btn
       v-if="!$store.getters.isMobile"
-      color="primary"
+      color="green"
       class="mx-auto"
       :to="`/sessions/add-session`"
       >

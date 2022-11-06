@@ -58,7 +58,7 @@
         <!-- add attendee button-->
       <v-btn
       v-if="!$store.getters.isMobile"
-      color="primary"
+      color="green"
       class="mx-auto"
       :to="`/attendees/add-attendee`"
       >

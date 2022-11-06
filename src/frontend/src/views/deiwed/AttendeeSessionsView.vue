@@ -19,7 +19,7 @@
           locale="pt-PT"
           no-data-text="Não existem sessões registadas"
           no-results-text="Nenhuma sessão corresponde aos critérios indicados"
-          sort-by="date"
+          sort-by="id"
         >
           <template v-slot:[`item.actions`]="{ item }">
             <v-btn
@@ -43,7 +43,7 @@
         </v-data-table>
         <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">
+            <v-btn color="green" dark class="mb-2" v-on="on">
                 <v-icon left>mdi-plus</v-icon> Adicionar Sessão
             </v-btn>
         </template>

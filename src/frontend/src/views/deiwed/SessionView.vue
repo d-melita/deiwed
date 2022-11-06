@@ -28,7 +28,7 @@
                                 locale="pt-PT"
                                 no-data-text="Não existem participantes registados"
                                 no-results-text="Nenhum participante corresponde aos critérios indicados"
-                                sort-by="name"
+                                sort-by="id"
                             >
                                 <template v-slot:[`item.type`]="{ item }">
                                     <v-chip
@@ -61,7 +61,7 @@
                             </v-data-table>
                             <v-dialog v-model="dialog" max-width="500px">
                                 <template v-slot:activator="{ on }">
-                                    <v-btn color="primary" dark class="mb-2" v-on="on">
+                                    <v-btn color="green" dark class="mb-2" v-on="on">
                                         <v-icon left>mdi-plus</v-icon> Adicionar Participante
                                     </v-btn>
                                 </template>
@@ -114,7 +114,7 @@
                                 locale="pt-PT"
                                 no-data-text="Não existem pratos registados"
                                 no-results-text="Nenhum prato corresponde aos critérios indicados"
-                                sort-by="name"
+                                sort-by="id"
                             >
                             <!-- type ? vegetarian: true, normal: false -->
                             <template v-slot:[`item.vegetarian`]="{ item }">
@@ -130,7 +130,7 @@
                             </v-data-table>
                             <!-- v-btn no add dishes if dishes == [] -->
                             <v-btn
-                                color="primary"
+                                color="green"
                                 dark
                                 class="mb-2"
                                 :to="`/session${session.id}-make-order`"
@@ -138,8 +138,9 @@
                             >
                                 <v-icon left>mdi-plus</v-icon> Fazer Encomenda
                             </v-btn>
-                            <v-btn
-                                color="primary"
+                            <div>
+                                <v-btn
+                                color="orange"
                                 dark
                                 class="mb-2"
                                 :to="`/session${session.id}-edit-order`"
@@ -147,8 +148,10 @@
                             >
                                 <v-icon left>mdi-plus</v-icon> Editar Encomenda
                             </v-btn>
-                            <v-btn
-                                color="primary"
+                            </div>
+                            <div>
+                                <v-btn
+                                color="red"
                                 dark
                                 class="mb-2"
                                 @click="removeOrder()"
@@ -156,6 +159,7 @@
                             >
                                 <v-icon left>mdi-plus</v-icon> Remover Encomenda
                             </v-btn>
+                            </div>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -196,6 +200,7 @@ export default class SessionView extends Vue {
 
     // attendees table
     headers_attendees = [
+        { text: "ID", value: "id" },
         { text: 'Nome', value: 'name' },
         { text: 'IST ID', value: 'istId', sortable: true, filterable: true },
         { text: 'Tipo', value: 'type', sortable: true, filterable: false },
@@ -205,6 +210,7 @@ export default class SessionView extends Vue {
 
     // dishes table
     headers_dishes = [
+        { text: "ID", value: "id" },
         { text: 'Nome', value: 'name', sortable: true, filterable: true },
         { text: 'Preço', value: 'unitPrice', sortable: true, filterable: true },
         { text: 'Descrição', value: 'description', sortable: true, filterable: true },
