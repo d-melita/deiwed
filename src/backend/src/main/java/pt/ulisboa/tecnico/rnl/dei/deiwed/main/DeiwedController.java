@@ -76,6 +76,11 @@ public class DeiwedController {
 		sessionsAttendeesService.deleteAllAttendeesFromSession(id);
 	}
 
+	@DeleteMapping("/attendees/{id}/sessions")
+	public void deleteAllSessionsFromAttendee(@PathVariable long id) {
+		sessionsAttendeesService.deleteAllSessionsFromAttendee(id);
+	}
+
 	@GetMapping("/attendee{id}/sessions")
 	public List<SessionAttendeesDto> getAttendeeSessions(@PathVariable long id) {
 		return sessionsAttendeesService.getAllAttendeeSessions(id);

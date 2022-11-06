@@ -13,10 +13,6 @@
             <v-card-title class="text-center">
                 <h2>Tema: {{ session.theme }}</h2>
             </v-card-title>
-            <!-- show image of session -->
-            <v-card-title class="text-center">
-                <img :src="session.image" alt="Imagem da sessão" />
-            </v-card-title>
             <!-- v-tabs for attendees and dishes -->
             <v-tabs v-model="tab" centered>
                 <v-tab>Participantes</v-tab>

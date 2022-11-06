@@ -62,4 +62,8 @@ public class SessionsAttendeesService {
     public void deleteAllAttendeesFromSession(long sessionId) {
         sessionAttendeesRepository.deleteBySessionId(sessionId);
     }
+
+    public void deleteAllSessionsFromAttendee(long attendeeId) {
+        sessionAttendeesRepository.deleteByAttendeeId(attendeeId);
+    }
 }

@@ -94,8 +94,9 @@ export default class SessionsView extends Vue {
     async removeSession(session: SessionDto) {
     await this.$store.dispatch('loading');
     try {
-      await RemoteServices.removeSession(session.id);
+      RemoteServices.removeOrder(session.date);
       await RemoteServices.removeAllAttendeesFromSession(session.id);
+      await RemoteServices.removeSession(session.id);
       this.sessions = this.sessions.filter((a) => a.id !== session.id); // remove from list instead of reloading
     } catch (error) {
       this.$store.dispatch('error', error);

@@ -104,6 +104,7 @@ export default class AttendeesView extends Vue {
   async removeAttendee(attendee: AttendeeDto) {
     await this.$store.dispatch('loading');
     try {
+      await RemoteServices.removeAttendeeSessions(attendee.id);
       await RemoteServices.removeAttendee(attendee.id);
       this.attendees = this.attendees.filter((a) => a.id !== attendee.id); // remove from list instead of reloading
     } catch (error) {

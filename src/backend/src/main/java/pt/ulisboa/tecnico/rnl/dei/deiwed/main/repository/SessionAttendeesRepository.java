@@ -21,4 +21,6 @@ public interface SessionAttendeesRepository extends JpaRepository<SessionAttende
     void deleteBySessionIdAndAttendeeId(long sessionId, long attendeeId);
 
     void deleteBySessionId(long sessionId);
+
+    void deleteByAttendeeId(long attendeeId);
 }
