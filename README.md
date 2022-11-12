@@ -2,7 +2,7 @@
 
 - [Dependências](#dependências)
 - [Correr a aplicação](#correr-a-aplicação)
-- [Opções](#opções)
+- [Extra](#extra)
 
 Projeto Realizado no âmbito da candidatura à BII BL204/2022, tendo como objetivo implementar um sistema muito simples de gestão de sessões da iniciativa DEI ÀS QUARTAS, sistema esse ligado à api FOODSTORE(documentação disponível [aqui](https://eindhoven.rnl.tecnico.ulisboa.pt/food-store/docs/#overview)).
 
@@ -23,13 +23,5 @@ Para correr a aplicação deve-se seguir os seguintes passos:
 3. na diretoria src/frontend, correr o comando `npm install` e depois `npm run start`
 4. abrir o browser e ir para o endereço `localhost:8081` e começar a utilizar a aplicação
 
-## Opções
-- A aplicação assume que o input é sempre bem formatado contudo, com mais tempo, seria possível implementar um sistema de validação de input.
-
-- Optou-se por permitir a alteração e a eliminação de pedidos de pratos à api FOODSTORE.
-
-- Na home page é possível ir para as páginas de participantes, pratos e sessões de forma a ter uma página inicial mais limpa. 
-
-- É possível navegar entre páginas clicando em "DEI ÀS QUARTAS" no canto superior direito.
-
-- Com mais tempo ter-se-ia investido na parte visual da aplicação pelo que acabou por ficar algo bastante simples.
+## Extra
+O projeto tinha alguns erros que serão corrigidos no futuro
